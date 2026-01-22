@@ -14,7 +14,9 @@ def webhook():
     
     try:
         # Mudando para o modelo 'gemini-pro' que é mais estável nessa biblioteca
-        model = genai.GenerativeModel('gemini-pro')
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        # OU use o antigo se o flash falhar:
+        # model = genai.GenerativeModel('gemini-pro')
         response = model.generate_content(pergunta)
         resposta_texto = response.text
     except Exception as e:
