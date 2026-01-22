@@ -9,16 +9,23 @@ app = Flask(__name__)
 
 @app.route("/webhook", methods=['POST'])
 def webhook():
-    pergunta = request.values.get('Body', '')
+    # Pegamos o 'Body' que é onde o texto da mensagem fica
+    pergunta = request.values.get('Body', '').strip()
+    
+    resp = MessagingResponse()
+    
+    # Se a pergunta estiver vazia, nem tentamos chamar a IA
+    if not pergunta:
+        return str(resp)
+
     try:
         model = genai.GenerativeModel('gemini-1.5-flash')
         response = model.generate_content(pergunta)
         resposta_texto = response.text
     except Exception as e:
-        print(f"ERRO: {e}")
-        resposta_texto = "Tive um erro técnico, pode repetir?"
+        print(f"ERRO NO GEMINI: {e}")
+        resposta_texto = "Tive um probleminha. Pode perguntar de novo?"
 
-    resp = MessagingResponse()
     resp.message(resposta_texto)
     return str(resp)
 
