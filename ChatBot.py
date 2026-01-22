@@ -24,7 +24,7 @@ def webhook():
     try:
         # Gerando a resposta com o modelo e a instrução
         response = client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-1.5-flash",
             config={'system_instruction': INSTRUCAO},
             contents=msg_recebida
         )
@@ -42,3 +42,4 @@ def webhook():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+
