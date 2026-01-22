@@ -4,7 +4,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 from google import genai
 
 # Configuração da API
-client = genai.Client(api_key="AIzaSyARxvFj3JulkC2o1OFQfVfehgVUig50hoQ")
+client = genai.Client(api_key="AIzaSyA8v2Ql0VsvQP9I8kxazK5Mmlx6aPm23Yk")
 
 app = Flask(__name__)
 
@@ -32,3 +32,4 @@ def webhook():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+
