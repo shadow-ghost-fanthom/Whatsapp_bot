@@ -17,7 +17,7 @@ def webhook():
         return str(resp)
 
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-1.0-pro')
         response = model.generate_content(pergunta)
         resposta_texto = response.text
     except Exception as e:
@@ -30,3 +30,4 @@ def webhook():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
+
