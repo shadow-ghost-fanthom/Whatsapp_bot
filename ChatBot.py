@@ -17,6 +17,7 @@ def webhook():
         return str(resp)
 
     try:
+        # Usando o 1.0-pro que é mais estável no Render
         model = genai.GenerativeModel('gemini-1.0-pro')
         response = model.generate_content(pergunta)
         resposta_texto = response.text
@@ -30,5 +31,3 @@ def webhook():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
-
-
