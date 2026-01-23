@@ -3,17 +3,15 @@ from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 import google.generativeai as genai
 
-# Configuração da API Key (Troque pela sua se gerar uma nova)
+# Configuração da API Key
 genai.configure(api_key="AIzaSyAxPOxuc5LY5cywfCGqncixqCPkn5budXE", transport='rest')
 
 app = Flask(__name__)
 
-# Definindo a personalidade do Especialista
+# Personalidade de Especialista
 instrucao_sistema = (
-    "Você é um Especialista em Programação Sênior, com conhecimento profundo em todas as "
-    "linguagens de programação, arquitetura de software, bancos de dados e engines de jogos "
-    "(Unity, Unreal, Godot). Sua missão é ajudar o usuário com códigos eficientes, "
-    "explicações didáticas e melhores práticas de desenvolvimento."
+    "Você é um Especialista em Programação Sênior. Domina todas as linguagens, "
+    "frameworks e engines (Unity, Unreal). Responda de forma técnica e clara."
 )
 
 @app.route("/webhook", methods=['POST'])
@@ -25,23 +23,20 @@ def webhook():
         return str(resp)
 
     try:
-        # Configurando o modelo com a instrução de especialista
+        # Usando o nome completo do modelo mais atual
         model = genai.GenerativeModel(
-            model_name='gemini-pro',
+            model_name='gemini-1.5-flash',
             system_instruction=instrucao_sistema
         )
-        
         response = model.generate_content(pergunta)
         resposta_texto = response.text
-        
     except Exception as e:
         print(f"ERRO NO GEMINI: {e}")
-        resposta_texto = "Ops, tive um problema técnico aqui. Pode tentar perguntar de novo?"
+        resposta_texto = "Ops, tive um problema técnico. Pode repetir a pergunta?"
 
     resp.message(resposta_texto)
     return str(resp)
 
 if __name__ == "__main__":
-    # O Render usa a porta 10000 por padrão
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
